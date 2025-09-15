@@ -1,67 +1,62 @@
-
-import { Animated, Image, StatusBar, StyleSheet, Text, View } from "react-native";
-import "../../global.css"
+import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
+import "../../global.css";
 import CircleShape from "../components/CircleShape";
-import { useEffect, useRef } from "react";
-
+import { use, useEffect, useRef } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 export default function SplashScreen() {
+  const opacity = useSharedValue(0);
 
-    let fadeIn = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    opacity.value = withTiming(1, { duration: 3000 });
+  }, []);
 
-    useEffect(() => {
+  const animatedStyle = useAnimatedStyle(() => {
+    return { opacity: opacity.value };
+  });
 
-        Animated.timing(fadeIn, {
-            toValue: 1,
-            duration: 3000,
-            useNativeDriver: true,
-        }).start;
+  return (
+    <SafeAreaView className="flex-1  items-center justify-center">
+      <StatusBar hidden={true} />
 
+      <CircleShape
+        width={200}
+        height={200}
+        borderRadius={999}
+        className="bg-slate-900"
+        leftValue={-50}
+        topValue={-20}
+      />
 
-    }, [fadeIn]);
+      <CircleShape
+        width={200}
+        height={200}
+        borderRadius={999}
+        className="bg-slate-900"
+        leftValue={-10}
+        topValue={110}
+      />
 
-    return (
+      <Animated.View style={animatedStyle}>
+        <Image
+          source={require("../../assets/iassets/Image20250911225927.png")}
+          style={{ height: 200, width: 220 }}
+        />
+      </Animated.View>
 
-        <View className="flex-1  items-center justify-center">
-
-            
-            <CircleShape
-                width={200}
-                height={200}
-                fillColor="#09090b"
-                borderRadius={999}
-                topValue={-25}
-                leftValue={-50}
-            />
-            <CircleShape
-                width={160}
-                height={160}
-                fillColor="#09090b"
-                borderRadius={999}
-                topValue={-5}
-                leftValue={60}
-            />
-
-            <Animated.View style ={{opacity: fadeIn}}>
-            <Image source={require("../../assets/Image20250911225927.png")}
-                style={{ height: 180, width: 200 }} />
-<StatusBar hidden={true} />
-
-                </Animated.View>
-
-
-            <View className="absolute bottom-0 mb-10 flex-1 flex-col justify-center items-center">
-
-                <Text className="text-xs font-bold text-gray-500">
-                    POWERED BY: {process.env.EXPO_PUBLIC_APP_OWNER}
-                </Text>
-                <Text className="text-xs font-bold text-grey-500">
-                    VERSION: {process.env.EXPO_PUBLIC_APP_VERSION}
-                </Text>
-            </View>
-        </View>
-
-    );
-
+      <Animated.View className="absolute bottom-0  justify-center items-center">
+        <Text className="text-xs font-bold text-slate-600">
+          POWERED BY: {process.env.EXPO_PUBLIC_APP_OWNER}
+        </Text>
+        <Text className="text-xs font-bold text-slate-600">
+          VERSION: {process.env.EXPO_PUBLIC_APP_VERSION}
+        </Text>
+      </Animated.View>
+    </SafeAreaView>
+  );
 }
-
