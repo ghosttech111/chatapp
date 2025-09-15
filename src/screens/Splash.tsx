@@ -1,13 +1,13 @@
-import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
-import "../../global.css";
-import CircleShape from "../components/CircleShape";
-import { use, useEffect, useRef } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useEffect } from "react";
+import { Image, StatusBar, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
+import "../../global.css";
+import CircleShape from "../components/CircleShape";
 
 export default function SplashScreen() {
   const opacity = useSharedValue(0);
@@ -21,41 +21,42 @@ export default function SplashScreen() {
   });
 
   return (
-    <SafeAreaView className="flex-1  items-center justify-center">
+    <SafeAreaView className="flex-1 justify-center items-center">
       <StatusBar hidden={true} />
 
       <CircleShape
         width={200}
         height={200}
         borderRadius={999}
-        className="bg-slate-900"
-        leftValue={-50}
-        topValue={-20}
+        fillColor="#0f172a"
+        topValue={-50}
+        leftValue={-20}
       />
-
       <CircleShape
         width={200}
         height={200}
         borderRadius={999}
-        className="bg-slate-900"
-        leftValue={-10}
-        topValue={110}
+        fillColor="#0f172a"
+        topValue={-20}
+        leftValue={90}
       />
 
       <Animated.View style={animatedStyle}>
         <Image
-          source={require("../../assets/iassets/Image20250911225927.png")}
+          source={require("../../assets/Image20250911225927.png")}
           style={{ height: 200, width: 220 }}
         />
       </Animated.View>
 
-      <Animated.View className="absolute bottom-0  justify-center items-center">
-        <Text className="text-xs font-bold text-slate-600">
-          POWERED BY: {process.env.EXPO_PUBLIC_APP_OWNER}
-        </Text>
-        <Text className="text-xs font-bold text-slate-600">
-          VERSION: {process.env.EXPO_PUBLIC_APP_VERSION}
-        </Text>
+      <Animated.View className="absolute bottom-10" style={animatedStyle}>
+        <View className="justify-center items-center">
+          <Text className="text-xs font-bold text-slate-600">
+            POWERED BY: {process.env.EXPO_PUBLIC_APP_OWNER}
+          </Text>
+          <Text className="text-xs font-bold text-slate-600">
+            VERSION: {process.env.EXPO_PUBLIC_APP_VERSION}
+          </Text>
+        </View>
       </Animated.View>
     </SafeAreaView>
   );

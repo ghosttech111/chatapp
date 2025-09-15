@@ -3,9 +3,9 @@ import { View } from "react-native";
 interface Circle {
   width: number;
   height: number;
-  fillColor?: string;
-  className?: string;
   borderRadius: number;
+  fillColor?: string;
+  className?:string;
   topValue?: number;
   rightValue?: number;
   bottomValue?: number;
@@ -19,7 +19,6 @@ export default function CircleShape(c: Circle) {
       style={{
         width: c.width,
         height: c.height,
-
         borderRadius: c.borderRadius,
         position: "absolute",
         ...(c.fillColor !== undefined && { backgroundColor: c.fillColor }),
@@ -27,7 +26,7 @@ export default function CircleShape(c: Circle) {
         ...(c.rightValue !== undefined && { right: c.rightValue }),
         ...(c.bottomValue !== undefined && { bottom: c.bottomValue }),
         ...(c.leftValue !== undefined && { left: c.leftValue }),
-        zIndex: 0,
+        zIndex: 1,
       }}
     ></View>
   );
