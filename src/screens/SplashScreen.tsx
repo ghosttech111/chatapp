@@ -6,15 +6,31 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
+
 import "../../global.css";
 import CircleShape from "../components/CircleShape";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStack } from "../../App";
+import { runOnJS } from "react-native-worklets";
+
+type Props = NativeStackNavigationProp<RootStack, "SplashScreen">;
 
 export default function SplashScreen() {
+  const navigation = useNavigation<Props>();
   const opacity = useSharedValue(0);
 
   useEffect(() => {
     opacity.value = withTiming(1, { duration: 3000 });
-  }, []);
+
+    const timer = setTimeout(() => {
+      navigation.replace("SignUpScreen");
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [navigation, opacity]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return { opacity: opacity.value };
